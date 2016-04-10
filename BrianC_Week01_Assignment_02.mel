@@ -1,0 +1,11 @@
+//BrianC - Week01 - Assignment 02
+global proc moveSelected() {
+string $sel[] = `ls -sl `;
+//set the offsets in translation
+float $offsetTrans[] = {0.0,1.5,0.0};
+for ($object in $sel){
+move -relative $offsetTrans[0] $offsetTrans[1] $offsetTrans[2] $object;
+    }
+}
+
+moveSelected();

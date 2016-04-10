@@ -1,0 +1,33 @@
+//BrianC - Week01 - Assignment 05
+//procedure creates a window that is named according to the $winName variable
+global proc createWindow() {
+string $winName = "mainWindow";
+//deletes the UI if it's already been created so the window doesn't appear twice
+if (`window -q -ex $winName`){
+    deleteUI $winName;
+}
+
+window -h 20 -w 50 -s 0 -t "Assignment05 - BrianC" $winName;
+    columnLayout;
+        text -h 5 -l "";
+        text -l "Please enter your name:";
+        text -h 5 -l "";
+        
+        global string $textFieldName = "";
+        $textFieldName = `textField`;
+        //when the button is pressed call the procedure with the queried text of the textfield as argument
+            button -w 112 -l "Enter"  -c "enterButtonPush(`textField -q -text $textFieldName`)";
+        setParent..;
+    setParent..;
+showWindow $winName;
+}
+
+//procedure that gets executed when the button is pressed.
+//(Has 1 string argument as variable to store the text of the textfield in)
+proc enterButtonPush(string $name)
+{
+        print ("\n Welcome : "+ $name + "\n");
+}
+
+createWindow();
+

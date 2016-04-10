@@ -1,0 +1,65 @@
+//BrianC - Week01 - Assignment01
+global proc createMeshes() {
+    // numberOfLoops = number of cubes / spheres you want to create
+    // offsetCube / offsetSphere changes the offset
+    int $numberOfloops = 3;
+    float $offsetCube[] = {5.0,0.0,0.0};
+    float $offsetSphere[] = {0.0,3.0,0.0};
+    float $positionCube[];
+    float $positionSphere[];
+    //create shadernodes for materials
+    string $redLambertMat = `shadingNode -asShader -n "red_Lambert" lambert`;
+    setAttr ($redLambertMat + ".color") 1 0 0;
+
+    string $greenLambertMat = `shadingNode -asShader -n "green_Lambert" lambert`;
+    setAttr ($greenLambertMat + ".color") 0 1 0;
+
+    string $blueBlinnMat = `shadingNode -asShader -n "blue_Blinn" blinn`;
+    setAttr ($blueBlinnMat + ".color") 0 0 1;
+    //iterate and create objects for the number of wanted loops
+    for ($count =0.0; $count<$numberOfloops; $count++){
+    
+        // create names for the cube and sphere based on the number of times iterated
+        string $nameCube = "cube";
+        $nameCube += string($count);
+    
+        string $nameSphere = "sphere";
+        $nameSphere += string($count);
+        
+        //calculate positions
+        $positionCube[0] = $count * $offsetCube[0];
+        $positionCube[1] = $count * $offsetCube[1];
+        $positionCube[2] = $count * $offsetCube[2];
+    
+        $positionSphere[0] = $positionCube[0];
+        $positionSphere[1] = $offsetSphere[1];
+        $positionSphere[2] = $offsetSphere[2];
+        
+        //create the cubes and move them according to the arrays used for positions
+		//I don't check to see if the objects already exist since the script still works if you run it multiple times.
+        polyCube -ch on -o on -w 2 -h 2 -d 2 -cuv 4 -n $nameCube;
+        move -absolute $positionCube[0] $positionCube[1] $positionCube[2] $nameCube;
+        polySphere -sx 10 -sy 15 -r 1 -n $nameSphere;
+        move -absolute $positionSphere[0] $positionSphere[1] $positionSphere[2] $nameSphere;
+    
+    //use a switch to check the count variable of the iterated loop to determine which cube is currently being created
+    //by using a switch , I can just change $numberOfLoops and add an extra case to extend the function
+    switch ($count) {
+        case 0.0:
+            select $nameCube;
+            hyperShade -assign $redLambertMat;
+            break;
+        case 1.0:
+            select $nameCube;
+            hyperShade -assign $greenLambertMat;
+            break;
+        case 2.0:
+            select $nameCube;
+            hyperShade -assign $blueBlinnMat;
+            break;
+        } 
+    }
+}
+
+//cal the procedure createMeshes
+createMeshes();

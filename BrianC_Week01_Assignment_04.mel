@@ -1,0 +1,19 @@
+//BrianC - Week01 - Assignment 04
+proc countSelectedTypes(){
+    //create variables to store selection
+    string $selected[] = `ls -sl`;
+    string $selectedMeshes[] = `ls -sl -exactType "mesh" `;
+    string $selectedJoints[] = `ls -sl -exactType "joint"`;
+    string $selectedTransforms[] = `ls -sl -exactType "transform"`;
+    //store length of arrays
+    int $objectCount = size($selected);
+    int $meshCount = size($selectedMeshes);
+    int $transformCount = size($selectedTransforms);
+    int $jointCount = size($selectedJoints);
+    print ("\n You have selected " + $objectCount + " objects. \n");
+    print ("\n You have selected " + $meshCount + " meshes. \n");
+    print ("\n You have selected " + $transformCount + " transform node(s). \n");
+    print ("\n You have selected " + $jointCount + " joints. \n");
+}
+
+countSelectedTypes();

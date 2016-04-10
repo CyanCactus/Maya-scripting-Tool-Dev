@@ -1,0 +1,12 @@
+//BrianC - Week01 - Assignment 03
+proc countSelected(){
+    
+    string $selected[] = `ls -sl`;
+    //the size of the array is equal to the objects selected. Element 0 in array will return size() 1
+    int $objectCount = size($selected);
+
+    print ("\n You have selected " + $objectCount + " objects. \n");
+
+}
+
+countSelected();
